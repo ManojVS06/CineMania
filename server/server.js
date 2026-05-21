@@ -14,7 +14,7 @@ import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 const app = express();
 const port = 3000;
 
-await connectDB()
+connectDB()
 
 // Stripe Webhooks Route
 app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
