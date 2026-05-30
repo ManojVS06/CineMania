@@ -8,6 +8,10 @@ export const getUserBookings = async (req, res)=>{
     try {
         const user = req.auth().userId;
 
+        if (!user) {
+            return res.json({ success: true, bookings: [] });
+        }
+
         const bookings = await Booking.find({user}).populate({
             path: "show",
             populate: {path: "movie"}
@@ -24,6 +28,10 @@ export const updateFavorite = async (req, res)=>{
     try {
         const { movieId } = req.body;
         const userId = req.auth().userId;
+
+        if (!userId) {
+            return res.json({ success: false, message: "Authentication required" });
+        }
 
         const user = await clerkClient.users.getUser(userId)
 
@@ -48,8 +56,13 @@ export const updateFavorite = async (req, res)=>{
 
 export const getFavorites = async (req, res) =>{
     try {
-        const user = await clerkClient.users.getUser(req.auth().userId)
-        const favorites = user.privateMetadata.favorites;
+        const userId = req.auth().userId;
+        if (!userId) {
+            return res.json({ success: true, movies: [] });
+        }
+
+        const user = await clerkClient.users.getUser(userId)
+        const favorites = user.privateMetadata.favorites || [];
 
         // Getting movies from database
         const movies = await Movie.find({_id: {$in: favorites}})
