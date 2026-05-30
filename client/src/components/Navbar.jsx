@@ -29,7 +29,7 @@ const Navbar = () => {
  }, [])
 
   return (
-    <div className={`fixed top-0 left-0 z-50 w-full flex items-center justify-between transition-all duration-300 px-6 md:px-16 lg:px-36 ${isScrolled ? 'bg-black/75 backdrop-blur-md border-b border-white/5 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
+    <div className={`fixed top-0 left-0 z-50 w-full flex items-center justify-between transition-all duration-300 px-6 md:px-16 lg:px-36 ${isScrolled ? 'bg-black/75 backdrop-blur-md py-3 shadow-lg' : 'bg-transparent py-5'}`}>
       <Link to='/' className='max-md:flex-1'>
         <img src={assets.logo} alt="" className='w-44 md:w-52 h-auto transition-all duration-300 hover:scale-105'/>
       </Link>
