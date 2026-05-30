@@ -39,38 +39,64 @@ const MyBookings = () => {
 
 
   return !isLoading ? (
-    <div className='relative px-6 md:px-16 lg:px-40 pt-30 md:pt-40 min-h-[80vh]'>
+    <div className='relative px-6 md:px-16 lg:px-24 xl:px-44 pt-32 pb-24 min-h-[85vh]'>
       <BlurCircle top="100px" left="100px"/>
       <div>
         <BlurCircle bottom="0px" left="600px"/>
       </div>
-      <h1 className='text-lg font-semibold mb-4'>My Bookings</h1>
+      <h1 className='text-3xl font-extrabold tracking-tight text-zinc-100 text-gradient mb-8 border-b border-zinc-900 pb-3'>My Booking History</h1>
 
-      {bookings.map((item,index)=>(
-        <div key={index} className='flex flex-col md:flex-row justify-between bg-primary/8 border border-primary/20 rounded-lg mt-4 p-2 max-w-3xl'>
-          <div className='flex flex-col md:flex-row'>
-            <img src={image_base_url + item.show.movie.poster_path} alt="" className='md:max-w-45 aspect-video h-auto object-cover object-bottom rounded'/>
-            <div className='flex flex-col p-4'>
-              <p className='text-lg font-semibold'>{item.show.movie.title}</p>
-              <p className='text-gray-400 text-sm'>{timeFormat(item.show.movie.runtime)}</p>
-              <p className='text-gray-400 text-sm mt-auto'>{dateFormat(item.show.showDateTime)}</p>
+      <div className="space-y-6 max-w-4xl">
+        {bookings.map((item,index)=>(
+          <div key={index} className='flex flex-col lg:flex-row justify-between bg-zinc-900/30 backdrop-blur-lg border border-white/5 rounded-2xl overflow-hidden shadow-lg hover:border-zinc-800 transition-all duration-300 group'>
+            
+            {/* Movie details (stub left) */}
+            <div className='flex flex-col sm:flex-row flex-1'>
+              <div className="relative overflow-hidden w-full sm:w-48 h-36 sm:h-full">
+                <img src={image_base_url + item.show.movie.poster_path} alt={item.show.movie.title} className='w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500'/>
+              </div>
+              <div className='flex flex-col p-6 gap-2 justify-center'>
+                <h3 className='text-xl font-extrabold text-zinc-100 group-hover:text-primary transition-colors duration-250'>{item.show.movie.title}</h3>
+                <span className='px-3 py-1 bg-white/5 border border-white/5 text-zinc-400 text-xs font-semibold rounded-md w-max'>{timeFormat(item.show.movie.runtime)}</span>
+                <p className='text-zinc-500 text-sm font-medium mt-2'>{dateFormat(item.show.showDateTime)}</p>
+              </div>
             </div>
+
+            {/* Stub details / price info (stub right) */}
+            <div className='flex flex-col sm:flex-row lg:flex-col justify-between p-6 gap-6 lg:w-72 lg:border-l lg:border-dashed lg:border-zinc-800/80 bg-zinc-950/40 relative'>
+              
+              {/* Ticket cuts for realistic ticket stub effect */}
+              <div className="hidden lg:block absolute -top-3.5 -left-3.5 h-7 w-7 rounded-full bg-[#09090B] border border-white/5" />
+              <div className="hidden lg:block absolute -bottom-3.5 -left-3.5 h-7 w-7 rounded-full bg-[#09090B] border border-white/5" />
+
+              <div className='flex items-start justify-between lg:items-end lg:flex-col gap-2'>
+                <p className='text-3xl font-extrabold text-zinc-100 tracking-tight'>{currency}{item.amount}</p>
+                
+                {item.isPaid ? (
+                  <span className='px-3.5 py-1.5 text-xs font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded-full flex items-center gap-1.5'>
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    Confirmed & Paid
+                  </span>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <span className='px-3.5 py-1.5 text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full flex items-center gap-1.5'>
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      Pending Payment
+                    </span>
+                    <a href={item.paymentLink} className='bg-primary text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-primary-dull transition-all duration-300 shadow-[0_4px_12px_rgba(248,69,101,0.25)] hover:shadow-[0_6px_16px_rgba(248,69,101,0.4)] cursor-pointer active:scale-97'>Pay Now</a>
+                  </div>
+                )}
+              </div>
+
+              <div className='text-xs space-y-1.5 border-t border-zinc-800 lg:border-t-0 pt-4 lg:pt-0 lg:text-right'>
+                <p><span className='text-zinc-500 font-medium'>Total Seats:</span> <strong className="text-zinc-300 font-bold">{item.bookedSeats.length} Tickets</strong></p>
+                <p><span className='text-zinc-500 font-medium'>Seats Assigned:</span> <strong className="text-primary font-bold">{item.bookedSeats.join(", ")}</strong></p>
+              </div>
+            </div>
+
           </div>
-
-          <div className='flex flex-col md:items-end md:text-right justify-between p-4'>
-            <div className='flex items-center gap-4'>
-              <p className='text-2xl font-semibold mb-3'>{currency}{item.amount}</p>
-              {!item.isPaid && <a href={item.paymentLink} className='bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer'>Pay Now</a>}
-            </div>
-            <div className='text-sm'>
-              <p><span className='text-gray-400'>Total Tickets:</span> {item.bookedSeats.length}</p>
-              <p><span className='text-gray-400'>Seat Number:</span> {item.bookedSeats.join(", ")}</p>
-            </div>
-          </div>
-
-        </div>
-      ))}
-
+        ))}
+      </div>
     </div>
   ) : <Loading />
 }
