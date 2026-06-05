@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./QuickShow-FullStack/client
+        working-directory: ./client
 
     steps:
       - name: 📥 Checkout code
@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: QuickShow-FullStack/client/package-lock.json
+          cache-dependency-path: client/package-lock.json
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-dist
-          path: QuickShow-FullStack/client/dist
+          path: client/dist
           retention-days: 7
 
   # ──────────────────────────────────────────────────────────
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./QuickShow-FullStack/server
+        working-directory: ./server
 
     steps:
       - name: 📥 Checkout code
@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: QuickShow-FullStack/server/package-lock.json
+          cache-dependency-path: server/package-lock.json
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -94,8 +94,8 @@ jobs:
       - name: 🏗️ Build Client Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./QuickShow-FullStack/client
-          file: ./QuickShow-FullStack/client/Dockerfile
+          context: ./client
+          file: ./client/Dockerfile
           push: false
           tags: cinemania-client:${{ github.sha }}
           cache-from: type=gha
@@ -108,8 +108,8 @@ jobs:
       - name: 🏗️ Build Server Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./QuickShow-FullStack/server
-          file: ./QuickShow-FullStack/server/Dockerfile
+          context: ./server
+          file: ./server/Dockerfile
           push: false
           tags: cinemania-server:${{ github.sha }}
           cache-from: type=gha
