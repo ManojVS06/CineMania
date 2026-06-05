@@ -1,12 +1,13 @@
 import { clerkClient } from "@clerk/express";
 import Booking from "../models/Booking.js";
 import Movie from "../models/Movie.js";
+import { getUserId } from "../middleware/auth.js";
 
 
 // API Controller Function to Get User Bookings
 export const getUserBookings = async (req, res)=>{
     try {
-        const user = req.auth().userId;
+        const user = getUserId(req);
 
         if (!user) {
             return res.json({ success: true, bookings: [] });
@@ -27,7 +28,7 @@ export const getUserBookings = async (req, res)=>{
 export const updateFavorite = async (req, res)=>{
     try {
         const { movieId } = req.body;
-        const userId = req.auth().userId;
+        const userId = getUserId(req);
 
         if (!userId) {
             return res.json({ success: false, message: "Authentication required" });
@@ -56,7 +57,7 @@ export const updateFavorite = async (req, res)=>{
 
 export const getFavorites = async (req, res) =>{
     try {
-        const userId = req.auth().userId;
+        const userId = getUserId(req);
         if (!userId) {
             return res.json({ success: true, movies: [] });
         }

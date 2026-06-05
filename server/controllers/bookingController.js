@@ -2,6 +2,7 @@ import { inngest } from "../inngest/index.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js"
 import stripe from 'stripe'
+import { getUserId } from "../middleware/auth.js";
 
 
 // Function to check availability of selected seats for a movie
@@ -23,7 +24,7 @@ const checkSeatsAvailability = async (showId, selectedSeats)=>{
 
 export const createBooking = async (req, res)=>{
     try {
-        const {userId} = req.auth();
+        const userId = getUserId(req);
         const {showId, selectedSeats} = req.body;
         const { origin } = req.headers;
 

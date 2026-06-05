@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log*
+.env
+.env.*
+.git
+.gitignore
+*.md
+setAdmin.js
+listClerkUsers.js
+checkDb.js
+testTmdb.js
+scratch_test.js
