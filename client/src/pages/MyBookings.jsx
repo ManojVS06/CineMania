@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { dummyBookingData } from '../assets/assets'
+import React, { useEffect, useState } from 'react'
 import Loading from '../components/Loading'
 import BlurCircle from '../components/BlurCircle'
 import timeFormat from '../lib/timeFormat'
 import { dateFormat } from '../lib/dateFormat'
 import { useAppContext } from '../context/AppContext'
-
 
 const MyBookings = () => {
   const currency = import.meta.env.VITE_CURRENCY
