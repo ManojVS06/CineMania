@@ -41,7 +41,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_CLIENT_PROJECT_ID }}
           vercel-args: --prod
-          working-directory: ./client
 
   # ──────────────────────────────────────────────────────────
   # Deploy Server to Vercel
@@ -66,4 +65,3 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_SERVER_PROJECT_ID }}
           vercel-args: --prod
-          working-directory: ./server
